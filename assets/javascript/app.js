@@ -8,7 +8,6 @@ var config = {
 	messagingSenderId: '397423141718'
 };
 firebase.initializeApp(config);
-var turn = 1;
 var database = firebase.database();
 var playersRef = database.ref('/players');
 var player1Ref = database.ref('/players/1');
@@ -19,22 +18,41 @@ var game = {
 	playerNum: '',
 	playerName: '',
 	playerChoice: '',
+	opponentNum: '',
+	opponentChoice: '',
 	wins: 0,
 	losses: 0,
 	ties: 0,
 	winState: '',
 	initGame: function() {
-		playersRef.on('value', function(snapshot) {
-			if (snapshot.numChildren() === 2) {
-				database.ref().child('turn').set(turn);
-				//maybe???
-				game.playerReady(turn);
+		database.ref().on('value', function(snapshot) {
+			if (snapshot.child('players').numChildren() === 2) {
+				if(!snapshot.child('turn').exists()) {
+					database.ref().child('turn').set(1);
+				}
 			} else {
-				game.turn = 1;
-				database.ref().child('turn').remove();
+				if (snapshot.child('turn').exists()) {
+					database.ref().child('turn').remove();
+				}
+
+				if(game.playerNum === '1') {
+					player1Ref.once('value', function(snap) {
+						if (snap.val()) {
+							player1Ref.child('choice').remove();
+						}
+					});
+				} else if (game.playerNum === '2') {
+					player2Ref.once('value', function(snap) {
+						if (snap.val()) {
+							player2Ref.child('choice').remove();
+						}
+					});
+				}
+
+				$('#player-' + game.playerNum + '-buttons').addClass('hidden');
 			}
 
-			if (snapshot.hasChild('1')) {
+			if (snapshot.child('players').hasChild('1')) {
 				player1Ref.once('value', function(p1Snap) {
 					$('#player-1-name').text(p1Snap.val().name);
 				});
@@ -45,7 +63,7 @@ var game = {
 				$('#wait-1').removeClass('hidden');
 			}
 
-			if (snapshot.hasChild('2')) {
+			if (snapshot.child('players').hasChild('2')) {
 				player2Ref.once('value', function(p2Snap) {
 					$('#player-2-name').text(p2Snap.val().name);
 				});
@@ -56,6 +74,24 @@ var game = {
 				$('#wait-2').removeClass('hidden');
 			}
 
+		});
+
+		// checks to see if the value of "turn" has changed
+		// 1 = player 1's turn
+		// 2 = player 2's turn
+		// 0 = both players have taken a turn
+		turnRef.on('value', function(turnSnap) {
+			if(turnSnap.val() != 0) {
+				game.playerReady(turnSnap.val());
+			}
+			else {
+				playersRef.once('value', function(snap) {
+					if(snap.numChildren() === 2) {
+						//we have two players logged in, so it's safe to process
+						game.processSelections();
+					}
+				});
+			}
 		});
 	},
 	initPlayer: function() {
@@ -68,17 +104,20 @@ var game = {
 					if (players.numChildren() < 2) {
 						if(players.hasChild('1')) {
 							game.playerNum = '2';
+							game.opponentNum = '1';
 						} else {
 							game.playerNum = '1';
+							game.opponentNum = '2';
 						}
 
+						// initialize new player object in db
 						playersRef.child(game.playerNum).set({
 							name: game.playerName,
 							wins: 0,
 							losses: 0,
 							ties: 0
 						});
-						$('#startDiv').hide();
+						$('#loginForm').hide();
 						$('#playerInfo').removeClass('hidden')
 							.text('Hi, ' + game.playerName + '! You are player ' + game.playerNum + '.');					
 	
@@ -92,89 +131,114 @@ var game = {
 		});	
 	},
 	playerReady: function(turn) {
-		if(this.playerNum === '1' && turn === 1) {
-			$('#player-1 > .buttons').removeClass('hidden');
-		} else if (this.playerNum === '2' && turn === 2) {
-			$('#player-2 > .buttons').removeClass('hidden');
+		if(this.playerNum === '1') {
+			if (turn === 1) {
+				$('#player-1-buttons').removeClass('hidden');
+			} 
+		} else if (this.playerNum === '2') {
+			if (turn === 2) {
+				$('#player-2-buttons').removeClass('hidden');
+			}
 		}
 	},
-	processSelection: function(selection) {
+	addSelection: function(selection) {
 		this.playerChoice = selection;
 
 		// set player's choice in database
-		playersRef.child(this.playerNum).child('choice').set(selection);
-
-		// if player 2 has answered, it means both players have answered, so we can figure out the winner
-		if(this.playerNum === '2') {
-			//first, set turn back to player 1's turn
-			this.turn = 1;
-			database.ref().child('turn').set(this.turn);
-
-			var otherPlayerChoice;
-			if(this.playerNum == '1') {
-				player2Ref.once('value', function(snap) {
-					otherPlayerChoice = snap.val().choice;
+		playersRef.child(this.playerNum).update({choice: selection}, function(error) {
+			// if the choice was updated successfully...
+			if (!error) {
+				turnRef.once('value', function(turnSnap) {
+					if(turnSnap.val() < 2) {
+						// it is now player 2's turn, so don't process yet
+						database.ref().update({
+							turn: 2
+						});
+					} else {
+						//player 2 just answered, so set turn to 0, which will trigger processing
+						database.ref().update({
+							turn: 0
+						});						
+					}
 				});
-			} else {
-				player1Ref.once('value', function(snap) {
-					otherPlayerChoice = snap.val().choice;
-				});
 			}
-			if (this.playerChoice === 'rock') {
-				if(otherPlayerChoice == 'paper') {
-					this.winState = 'lose';
-				}
-				else if(otherPlayerChoice == 'scissors') {
-					this.winState = 'win';
-				}
-				else {
-					this.winState = 'tie';
-				}
-			} else if (this.playerChoice === 'paper') {
-				if(otherPlayerChoice == 'scissors') {
-					this.winState = 'lose';
-				}
-				else if(otherPlayerChoice == 'rock') {
-					this.winState = 'win';
-				}
-				else {
-					this.winState = 'tie';
-				}
-			} else if (this.playerChoice === 'scissors') {
-				if(otherPlayerChoice == 'rock') {
-					this.winState = 'lose';
-				}
-				else if(otherPlayerChoice == 'paper') {
-					this.winState = 'win';
-				}
-				else {
-					this.winState = 'tie';
-				}
+		});
+	},
+	processSelections: function() {
+		if(this.playerNum === '1') {
+			player2Ref.once('value', function(snap) {
+				game.opponentChoice = snap.val().choice;
+			});
+		} else {
+			player1Ref.once('value', function(snap) {
+				game.opponentChoice = snap.val().choice;
+			});
+		}
+
+		if (this.playerChoice === 'rock') {
+			if(this.opponentChoice == 'paper') {
+				this.winState = 'lose';
 			}
-	
-			if (this.winState == 'win') {
-				this.wins++;
-				playersRef.child(this.playerNum).child('wins').update(this.wins);
-			}
-			else  if (this.winState == 'lose') {
-				this.losses++;
-				playersRef.child(this.playerNum).child('losses').update(this.losses);
+			else if(this.opponentChoice == 'scissors') {
+				this.winState = 'win';
 			}
 			else {
-				this.ties++;
-				playersRef.child(this.playerNum).child('ties').set(this.ties);
+				this.winState = 'tie';
 			}
-		} else {
-			// it is now player 2's turn
-			turn = 2;
-			database.ref().update({
-				turn: turn
-			});
-			turnRef.once('value', function(snapshot) {
-				console.log(snapshot.val());
-			});
-			this.playerReady(turn);
+		} else if (this.playerChoice === 'paper') {
+			if(this.opponentChoice == 'scissors') {
+				this.winState = 'lose';
+			}
+			else if(this.opponentChoice == 'rock') {
+				this.winState = 'win';
+			}
+			else {
+				this.winState = 'tie';
+			}
+		} else if (this.playerChoice === 'scissors') {
+			if(this.opponentChoice == 'rock') {
+				this.winState = 'lose';
+			}
+			else if(this.opponentChoice == 'paper') {
+				this.winState = 'win';
+			}
+			else {
+				this.winState = 'tie';
+			}
 		}
+
+		//update wins/losses/ties for player
+		if (this.winState == 'win') {
+			this.wins++;
+			playersRef.child(this.playerNum).update({
+				wins: this.wins
+			});
+			$('#results').text($('#player-' + this.playerNum + '-name').text() + ' wins!')
+				.show();
+		}
+		else  if (this.winState == 'lose') {
+			this.losses++;
+			playersRef.child(this.playerNum).update({
+				losses: this.losses
+			});
+			$('#results').text($('#player-' + this.opponentNum + '-name').text() + ' wins!')
+				.show();
+		}
+		else {
+			this.ties++;
+			playersRef.child(this.playerNum).update({
+				ties: this.ties
+			});
+			$('#results').text('You tied!')
+				.show();
+		}
+
+		setTimeout(function() {
+			database.ref().update({
+				turn: 1
+			});
+			$('#results').hide();
+		}, 3000);
 	}
 };
 
@@ -186,6 +250,7 @@ $(document).ready(function() {
 	});
 
 	$('body').on('click', '.selection', function() {
-		game.processSelection($(this).data('value'));
+		$(this).parent('div').addClass('hidden');
+		game.addSelection($(this).data('value'));
 	});
 });
