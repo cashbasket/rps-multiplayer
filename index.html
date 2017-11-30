@@ -6,11 +6,53 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    
-
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="startDiv">
+                    <form id="loginForm">
+                        <input type="text" id="name" required />
+                        <button type="submit" id="start">Start!</button>
+                    </form>
+                    <div id="playerInfo" class="hidden"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div id="player-1" class="hidden">
+                    <div id="player-1-name"></div>
+                    <div class="buttons hidden">
+                        <button class="selection" data-value="rock">Rock</button>
+                        <button class="selection" data-value="paper">Paper</button>
+                        <button class="selection" data-value="scissors">Scissors</button>
+                    </div>
+                </div>
+                <div id="wait-1">
+                    <p>Waiting for Player 1...</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                    
+            </div>
+            <div class="col-md-4">
+                <div id="player-2" class="hidden">
+                    <div id="player-2-name"></div>
+                    <div class="buttons hidden">
+                        <button class="selection" data-value="rock">Rock</button>
+                        <button class="selection" data-value="paper">Paper</button>
+                        <button class="selection" data-value="scissors">Scissors</button>
+                    </div>
+                </div>
+                <div id="wait-2">
+                    <p>Waiting for Player 2...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
     <script src="assets/javascript/app.js"></script>
 </body>
 </html>
