@@ -23,48 +23,52 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <div id="player-1-wrapper" class="player-wrapper">
-                    <div id="player-1" class="hidden">
-                        <div id="player-1-name"></div>
+                <div id="player-1" class="panel panel-default player-panel hidden">
+                    <div class="panel-heading">
+                        <h3 id="player-1-name" class="panel-title"></h3>
+                    </div>
+                    <div class="panel-body">
                         <div id="player-1-buttons" class="hidden">
                             <button class="selection" data-value="Rock">Rock</button><br />
                             <button class="selection" data-value="Paper">Paper</button><br />
                             <button class="selection" data-value="Scissors">Scissors</button>
                         </div>
                         <div id="player-1-choice" class="hidden player-choice"></div>
-                        <div id="player-1-stats">
-                            Wins: <span id="player-1-wins" class="stat">0</span> 
-                            Losses: <span id="player-1-losses" class="stat">0</span>
-                            Ties: <span id="player-1-ties" class="stat">0</span>
-                        </div>
                     </div>
-                    <div id="wait-1">
-                        <p>Waiting for Player 1...</p>
+                    <div id="player-1-stats" class="panel-footer">
+                        Wins: <span id="player-1-wins" class="stat">0</span> 
+                        Losses: <span id="player-1-losses" class="stat">0</span>
+                        Ties: <span id="player-1-ties" class="stat">0</span>
                     </div>
+                </div>
+                <div id="wait-1" class="waiting">
+                    <p>Waiting for Player 1...</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div id="results"></div>
             </div>
             <div class="col-md-4">
-                <div id="player-2-wrapper" class="player-wrapper">
-                    <div id="player-2" class="hidden">
-                        <div id="player-2-name"></div>
+                <div id="player-2" class="panel panel-default player-panel hidden">
+                    <div class="panel-heading">
+                        <h3 id="player-2-name" class="panel-title"></h3>
+                    </div>
+                    <div class="panel-body">
                         <div id="player-2-buttons" class="hidden">
                             <button class="selection" data-value="Rock">Rock</button><br />
                             <button class="selection" data-value="Paper">Paper</button><br />
                             <button class="selection" data-value="Scissors">Scissors</button>
                         </div>
                         <div id="player-2-choice" class="hidden player-choice"></div>
-                        <div id="player-2-stats">
-                            Wins: <span id="player-2-wins" class="stat">0</span> 
-                            Losses: <span id="player-2-losses" class="stat">0</span>
-                            Ties: <span id="player-2-ties" class="stat">0</span>
-                        </div>
                     </div>
-                    <div id="wait-2">
-                        <p>Waiting for Player 2...</p>
+                    <div id="player-2-stats" class="panel-footer">
+                        Wins: <span id="player-2-wins" class="stat">0</span> 
+                        Losses: <span id="player-2-losses" class="stat">0</span>
+                        Ties: <span id="player-2-ties" class="stat">0</span>
                     </div>
+                </div>
+                <div id="wait-2" class="waiting">
+                    <p>Waiting for Player 2...</p>
                 </div>
             </div>
         </div>

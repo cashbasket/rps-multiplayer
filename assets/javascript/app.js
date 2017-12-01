@@ -122,31 +122,51 @@ var game = {
 		// 2 = player 2's turn
 		// 0 = both players have taken a turn
 		turnRef.on('value', function(turnSnap) {
-			if(turnSnap.val() != 0) {
+			var turn = turnSnap.val();
+			if(turn != 0) {
 				$('#status').removeClass('hidden');
 				if(game.playerNum === '1') {
-					if(turnSnap.val() === 1) {
+					if(turn === 1) {
 						$('#status').text('It\'s your turn!');
+						$('#player-1-choice, #player-2-choice').empty().addClass('hidden');
 					} else {
+						$('#player-2-choice').removeClass('hidden')
+							.text('Choosing...');
 						$('#status').text('Waiting for ' + $('#player-2-name').text() + ' to choose.');
 					}
 				} else if (game.playerNum === '2') {
-					if(turnSnap.val() === 2) {
+					if(turn === 2) {
+						$('#player-1-choice').text('Done!');
 						$('#status').text('It\'s your turn!');
 					} else {
+						$('#player-2-choice').empty().addClass('hidden');
+						$('#player-1-choice').removeClass('hidden')
+							.text('Choosing...');
 						$('#status').text('Waiting for ' + $('#player-1-name').text() + ' to choose.');
 					}
 				}
-				game.playerReady(turnSnap.val());
+				game.playerReady(turn);
 			}
 			else {
-				$('#status').addClass('hidden');
 				playersRef.once('value', function(snap) {
 					if(snap.numChildren() === 2) {
 						//we have two players logged in, so it's safe to process
 						game.processSelections();
 					}
 				});
+			}
+
+			if(turn === 1) {
+				$('#player-1').removeClass('panel-default')
+					.addClass('panel-warning');
+			} else if (turn === 2) {
+				$('#player-2').removeClass('panel-default')
+					.addClass('panel-warning');
+				$('#player-1').removeClass('panel-warning')
+					.addClass('panel-default');
+			} else {
+				$('#player-2').removeClass('panel-warning')
+					.addClass('panel-default');
 			}
 		});
 
@@ -196,7 +216,7 @@ var game = {
 
 						$('#loginForm').hide();
 						$('#playerInfo').removeClass('hidden')
-							.text('Hi, ' + game.playerName + '! You are player ' + game.playerNum + '.');					
+							.text('Hi, ' + game.playerName + '! You are Player ' + game.playerNum + '.');					
 	
 						//remove player data when player disconnects.
 						playersRef.child(game.playerNum).onDisconnect().remove();
@@ -254,8 +274,7 @@ var game = {
 			});
 		}
 		//since round is over, show what opponent chose
-		$('#player-' + this.opponentNum + '-choice').removeClass('hidden')
-			.text(this.opponentChoice);
+		$('#player-' + this.opponentNum + '-choice').text(this.opponentChoice);
 
 		if (this.playerChoice === 'Rock') {
 			if(this.opponentChoice == 'Paper') {
@@ -320,11 +339,10 @@ var game = {
 		});
 		
 		setTimeout(function() {
+			$('#results').hide();
 			database.ref().update({
 				turn: 1
 			});
-			$('#results').hide();
-			$('#player-1-choice, #player-2-choice').empty().addClass('hidden');
 		}, 3000);
 	},
 	updateStatsDisplay: function(playerNum) {

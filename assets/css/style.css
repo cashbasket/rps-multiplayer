@@ -1,4 +1,45 @@
-#startDiv,
-.player-wrapper {
+#startDiv {
     text-align: center;
+}
+
+.panel-body {
+    display: flex;
+	justify-content: center;
+	flex-direction: column;
+    min-height: 150px;
+}
+
+.panel-heading, 
+.panel-footer,
+.panel-body,
+.waiting {
+    text-align: center;
+}
+
+.panel-warning > .panel-footer {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+.panel-footer > .stat {
+    margin-right: 15px;
+}
+
+.panel-footer > .stat:last-of-type {
+    margin-right: 0;
+}
+
+.waiting {
+    background-color: #f5f5f5;
+    border-radius:3px;
+    min-height: 226px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.player-choice,
+.waiting p {
+    font-size: 2em;
 }
