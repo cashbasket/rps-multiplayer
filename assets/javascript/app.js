@@ -172,7 +172,12 @@ var game = {
 
 		chatRef.orderByChild('timestamp').limitToLast(1).on('child_added', function(msgSnap) {
 			if(msgSnap.val()) {
-				$('#chatDisplay').append('<strong>' + msgSnap.val().sender + '</strong> (' +  moment.unix(msgSnap.val().timestamp).format('hh:mm:ss A') + '): ' + msgSnap.val().message + '<br />');
+				var span = $('<span>');
+				if(msgSnap.val().sender === game.playerName) {
+					span.addClass('self');
+				}
+				$('#chatDisplay').append(span.append('<strong>' + msgSnap.val().sender + '</strong> (' +  moment.unix(msgSnap.val().timestamp).format('h:mm:ss A') + '): ' + msgSnap.val().message)).append('<br />');
+				$('#chatDisplay').scrollTop($('#chatDisplay')[0].scrollHeight);
 			}
 		});
 	},
@@ -364,15 +369,16 @@ var game = {
 	},
 	sendMessage: function(message) {
 		var tmp = $('<div>');
-		tmp.text(message);
-		var strippedMessage = tmp.text();
-
-		var chatMessage = {
-			sender: this.playerName,
-			message: strippedMessage,
-			timestamp: moment().format('X')
-		};
-		chatRef.push(chatMessage);
+		tmp.text(message.trim());
+		if (message.trim().length) {
+			var strippedMessage = tmp.text();
+			var chatMessage = {
+				sender: this.playerName,
+				message: strippedMessage,
+				timestamp: moment().format('X')
+			};
+			chatRef.push(chatMessage);
+		} 
 	}
 };
 

@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div id="results"></div>
+                <div id="results" class="results-section"></div>
             </div>
             <div class="col-md-4">
                 <div id="player-2" class="panel panel-default player-panel hidden">
@@ -72,12 +72,30 @@
                 </div>
             </div>
         </div>
-        <div id="chat" class="hidden" class="chat-container">
-            <div id="chatDisplay" class="chat-display"></div>
-            <form id="msgForm">
-                <input type="text" id="message" class="message-input" required />
-                <button type="submit" id="send">Send</button>
-            </form>
+        <div class="row">
+            <div class="col-md-8 col-md-push-2">
+                <div id="chat" class="hidden" class="chat-container">
+					<div class="row no-gutter">
+						<div class="col-md-12">
+							<h3>Chat</h3>
+							<div id="chatDisplay" class="chat-display"></div>
+						</div>
+					</div>
+                    <form id="msgForm">
+						<div class="row input-row">
+							<div class="col-sm-10">
+								<div class="form-group">
+									<label for="message" class="control-label sr-only">Send a Message:</label>
+									<input type="text" id="message" placeholder="Type a Message" class="form-control message-input" required />
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<button type="submit" id="send" class="btn btn-primary send-button">Send</button>
+							</div>
+						</div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
