@@ -386,7 +386,11 @@ $(document).ready(function() {
 	game.initGame();
 	$('#loginForm').on('submit', function(event) {
 		event.preventDefault();
-		game.initPlayer();
+		if($('#name').val().trim().length) {
+			game.initPlayer();
+		} else {
+			$('#name').val('');
+		}
 	});
 
 	$('body').on('click', '.selection', function() {

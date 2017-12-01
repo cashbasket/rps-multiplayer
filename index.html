@@ -11,10 +11,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="startDiv">
-                    <form id="loginForm">
-                        <strong>Your Name:</strong> 
-                        <input type="text" id="name" required />
-                        <button type="submit" id="start">Start!</button>
+                    <form id="loginForm" class="form-inline">
+						<div class="form-group">
+							<label for="name" class="control-label sr-only">Enter Your Name:</label>
+							<input type="text" id="name" placeholder="Enter Your Name" class="form-control" required />
+						</div>
+                        <button type="submit" id="start" class="btn btn-primary">Log In</button>
                     </form>
                     <div id="playerInfo" class="hidden"></div>
                     <div id="status" class="hidden"></div>
