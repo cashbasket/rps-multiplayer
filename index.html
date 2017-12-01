@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>RPS Multiplayer</title>
@@ -15,6 +16,7 @@
                         <button type="submit" id="start">Start!</button>
                     </form>
                     <div id="playerInfo" class="hidden"></div>
+                    <div id="status" class="hidden"></div>
                 </div>
             </div>
         </div>
@@ -23,10 +25,11 @@
                 <div id="player-1" class="hidden">
                     <div id="player-1-name"></div>
                     <div id="player-1-buttons" class="hidden">
-                        <button class="selection" data-value="rock">Rock</button>
-                        <button class="selection" data-value="paper">Paper</button>
-                        <button class="selection" data-value="scissors">Scissors</button>
+                        <button class="selection" data-value="Rock">Rock</button><br />
+                        <button class="selection" data-value="Paper">Paper</button><br />
+                        <button class="selection" data-value="Scissors">Scissors</button>
                     </div>
+                    <div id="player-1-choice" class="hidden player-choice"></div>
                     <div id="player-1-stats">
                         Wins: <span id="player-1-wins">0</span> 
                         Losses: <span id="player-1-losses">0</span>
@@ -44,10 +47,11 @@
                 <div id="player-2" class="hidden">
                     <div id="player-2-name"></div>
                     <div id="player-2-buttons" class="hidden">
-                        <button class="selection" data-value="rock">Rock</button>
-                        <button class="selection" data-value="paper">Paper</button>
-                        <button class="selection" data-value="scissors">Scissors</button>
+                        <button class="selection" data-value="Rock">Rock</button><br />
+                        <button class="selection" data-value="Paper">Paper</button><br />
+                        <button class="selection" data-value="Scissors">Scissors</button>
                     </div>
+                    <div id="player-2-choice" class="hidden player-choice"></div>
                     <div id="player-2-stats">
                         Wins: <span id="player-2-wins">0</span> 
                         Losses: <span id="player-2-losses">0</span>
@@ -59,8 +63,16 @@
                 </div>
             </div>
         </div>
+        <div id="chat" class="hidden">
+            <div id="chatDisplay"></div>
+            <form id="msgForm">
+                <input type="text" id="message" />
+                <button type="submit" id="send">Send</button>
+            </form>
+        </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="assets/javascript/app.js"></script>
