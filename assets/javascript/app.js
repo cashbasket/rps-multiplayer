@@ -53,12 +53,20 @@ var game = {
 				$('#chat').removeClass('hidden');
 			} else {
 				$('#status').empty().addClass('hidden');
+
+				//reset chat stuff if there aren't 2 players
 				$('#chat').addClass('hidden');
 				$('#chatDisplay').empty();
+				if (snapshot.child('chat').exists()) {
+					database.ref().child('chat').remove();
+				}
 
+				//remove turn
 				if (snapshot.child('turn').exists()) {
 					database.ref().child('turn').remove();
 				}
+
+				//remove player choices
 				if(game.playerNum === '1') {
 					player1Ref.once('value', function(snap) {
 						if (snap.val()) {
@@ -366,5 +374,5 @@ $(document).ready(function() {
 		event.preventDefault();
 		game.sendMessage($('#message').val().trim());
 		$('#message').val('');
-	})
+	});
 });

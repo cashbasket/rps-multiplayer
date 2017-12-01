@@ -1,3 +1,4 @@
-#startDiv {
+#startDiv,
+.player-wrapper {
     text-align: center;
 }
