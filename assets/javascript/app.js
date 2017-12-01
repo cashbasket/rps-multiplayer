@@ -128,15 +128,15 @@ var game = {
 				if(game.playerNum === '1') {
 					if(turn === 1) {
 						$('#status').text('It\'s your turn!');
-						$('#player-1-choice, #player-2-choice').empty().addClass('hidden');
+						$('#player-1-choice').empty().addClass('hidden');
+						$('#player-2-choice').removeClass('hidden').text('Waiting...');
 					} else {
-						$('#player-2-choice').removeClass('hidden')
-							.text('Choosing...');
+						$('#player-2-choice').text('Choosing...');
 						$('#status').text('Waiting for ' + $('#player-2-name').text() + ' to choose.');
 					}
 				} else if (game.playerNum === '2') {
 					if(turn === 2) {
-						$('#player-1-choice').text('Done!');
+						$('#player-1-choice').text('Waiting...');
 						$('#status').text('It\'s your turn!');
 					} else {
 						$('#player-2-choice').empty().addClass('hidden');
