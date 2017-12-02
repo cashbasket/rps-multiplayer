@@ -83,9 +83,13 @@ p {
 }
 
 
-.player-choice,
-.waiting p {
+.player-choice {
     font-size: 1.5em;
+    margin-bottom: 0;
+}
+
+.waiting p {
+    font-size: 1.25em;
     margin-bottom: 0;
 }
 
