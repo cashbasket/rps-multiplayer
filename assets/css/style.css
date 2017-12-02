@@ -35,6 +35,9 @@ p {
     text-align: center;
 }
 
+.panel {
+    min-height: 226px;
+}
 .panel-body {
     display: flex;
 	justify-content: center;

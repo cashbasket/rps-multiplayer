@@ -63,9 +63,11 @@ var game = {
 				if (game.playerNum.length) {
 					$('#chat').removeClass('hidden');
 					$('.input-row').removeClass('hidden');
+					$('.panel-footer').show();
 				} else {
 					$('#playerInfo').removeClass('hidden');
 					$('#playerInfo > .well').text('Sorry, two players are already playing.');
+					$('.panel-footer').hide();
 				}
 			} else {
 				$('#startDiv').removeClass('hidden');
@@ -73,7 +75,10 @@ var game = {
 					$('#playerInfo').addClass('hidden');
 				}
 
-				if (snapshot.child('chat').exists()) {
+				$('.panel-footer').hide();
+
+				if 
+				(snapshot.child('chat').exists()) {
 					database.ref().child('chat').remove();
 				}
 
@@ -140,7 +145,7 @@ var game = {
 		// 0 = both players have taken a turn
 		turnRef.on('value', function(turnSnap) {
 			var turn = turnSnap.val();
-			if(turn) {
+			if(turn !== null) {
 				if(game.playerNum.length) {
 					if(turn != 0) {
 						if(game.playerNum === '1') {
