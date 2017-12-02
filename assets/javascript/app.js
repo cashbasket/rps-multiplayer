@@ -172,18 +172,20 @@ var game = {
 
 					if(turn === 1) {
 						$('#player-1').removeClass('panel-default')
-							.addClass('panel-warning');
+							.addClass('panel-success');
 					} else if (turn === 2) {
 						$('#player-2').removeClass('panel-default')
-							.addClass('panel-warning');
-						$('#player-1').removeClass('panel-warning')
+							.addClass('panel-success');
+						$('#player-1').removeClass('panel-success')
 							.addClass('panel-default');
 					} else {
-						$('#player-1, #player-2').removeClass('panel-warning')
+						$('#player-1, #player-2').removeClass('panel-success')
 							.addClass('panel-default');
 					}
 				}
 			} else {
+				$('#player-1, #player-2').removeClass('panel-success')
+					.addClass('panel-default');
 				playersRef.once('value', function(snap) {
 					if(snap.val() && game.playerNum.length && game.opponentName.length) {
 						$('#chatDisplay').append('<span class="disconnected">' + game.opponentName + ' has disconnected.</span>');

@@ -49,10 +49,10 @@ p {
     text-align: center;
 }
 
-.panel-warning > .panel-footer {
-    color: #8a6d3b;
-    background-color: #fcf8e3;
-    border-color: #faebcc;
+.panel-success > .panel-footer {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
 }
 
 .panel-footer > .stat {
@@ -107,7 +107,7 @@ p {
 }
 
 .chat-display > .self {
-    color: rgb(21, 185, 117);
+    color: #5cb85c;
 }
 
 .chat-display > span {
