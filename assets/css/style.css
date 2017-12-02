@@ -3,6 +3,16 @@ body {
     font-size: 16px;
 }
 
+.site {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.site-content {
+    flex: 1; 
+}
+
 .container {
     max-width: 1040px;
 }
@@ -93,7 +103,11 @@ p {
 }
 
 .chat-display > .self {
-    color: #F00;
+    color: rgb(21, 185, 117);
+}
+
+.chat-display > span {
+    display: block;
 }
 
 .player-info {
@@ -114,6 +128,44 @@ p {
     width: 100%;
 }
 
+.disconnected {
+    color: #f00;
+    font-weight: bold;
+}
+
+footer {
+	background-color: #000;
+	color: #fffdf4;
+	border-top: 1px solid #fffdf4;
+	padding: 10px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+}
+
+.social {
+    list-style: none;
+    float: right;
+    font-size: 18px;
+    max-width: 200px;
+}
+
+.social li {
+    float: left;
+    margin-right: 10px;
+}
+
+.social li a {
+    color: #fffdf4;
+}
+
+.social li a:hover {
+    color: #f00;
+}
+
+.social li:last-of-type {
+    margin-right: 0;
+}
+
 @media screen and (max-width: 767px) {
     .input-row > [class*='col-']:first-child {
         padding-right:15px;
@@ -123,5 +175,22 @@ p {
     .input-row > [class*='col-']:last-child {
         padding-right:15px;
         padding-left:15px;
+    }
+    footer {
+        text-align: center;
+        line-height: 1.5;
+    }
+    .social {
+        list-style: none;
+        position: relative;
+        float: left;
+        display: block;
+        left: 50%;
+    }
+    .social li {
+        position: relative;
+        float: left;
+        display: block;
+        right: 50%;
     }
 }

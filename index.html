@@ -2,13 +2,14 @@
 <html>
 <head>
     <title>RPS Multiplayer</title>
+    <script src="https://use.fontawesome.com/6207f4ce66.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/reset.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
+<body class="site">
+    <div class="container site-content">
         <div class="row">
             <div class="col-md-12">
                 <div id="startDiv" class="hidden">
@@ -45,8 +46,8 @@
                         <div id="player-1-choice" class="hidden player-choice"></div>
                     </div>
                     <div id="player-1-stats" class="panel-footer">
-                        Wins: <span id="player-1-wins" class="stat">0</span> 
-                        Losses: <span id="player-1-losses" class="stat">0</span>
+                        <strong>Wins:</strong> <span id="player-1-wins" class="stat">0</span> 
+                        <strong>Losses:</strong> <span id="player-1-losses" class="stat">0</span>
                     </div>
                 </div>
                 <div id="wait-1" class="waiting">
@@ -71,8 +72,8 @@
                         <div id="player-2-choice" class="hidden player-choice"></div>
                     </div>
                     <div id="player-2-stats" class="panel-footer">
-                        Wins: <span id="player-2-wins" class="stat">0</span> 
-                        Losses: <span id="player-2-losses" class="stat">0</span>
+                        <strong>Wins:</strong> <span id="player-2-wins" class="stat">0</span> 
+                        <strong>Losses:</strong> <span id="player-2-losses" class="stat">0</span>
                     </div>
                 </div>
                 <div id="wait-2" class="waiting">
@@ -106,6 +107,31 @@
             </div>
         </div>
     </div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="footer-text">A web thing by Ryan Machan</div>
+                </div>
+                <div class="col-md-6">
+                    <ul class="social">
+                        <li>
+                            <a href="mailto:rjm21@case.edu"><i class="fa fa-envelope"></i></a>
+                        </li>
+                        <li>
+                            <a href="http://www.github.com/cashbasket" target="_blank"><i class="fa fa-github"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://stackoverflow.com/users/8508714/cashbasket" target="_blank"><i class="fa fa-stack-overflow"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/in/ryan-machan-27a404148/" target="_blank"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

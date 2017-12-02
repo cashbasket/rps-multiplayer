@@ -20,6 +20,7 @@ var game = {
 	playerName: '',
 	playerChoice: '',
 	opponentNum: '',
+	opponentName: '',
 	opponentChoice: '',
 	wins: 0,
 	losses: 0,
@@ -43,26 +44,35 @@ var game = {
 
 		database.ref().on('value', function(snapshot) {
 			if (snapshot.child('players').numChildren() === 2) {
+				
+				if(game.playerNum === '1') {
+					player2Ref.once('value', function(p2Snap) {
+						game.opponentName = p2Snap.val().name;
+					});
+				} else if (game.playerNum === '2') {
+					player1Ref.once('value', function(p1Snap) {
+						game.opponentName = p1Snap.val().name;
+					});
+				}
+
 				$('#startDiv').addClass('hidden');
 				if(!snapshot.child('turn').exists()) {
 					database.ref().child('turn').set(1);
 				}
-				$('#chat').removeClass('hidden');
+				
 				if (game.playerNum.length) {
+					$('#chat').removeClass('hidden');
 					$('.input-row').removeClass('hidden');
 				} else {
 					$('#playerInfo').removeClass('hidden');
 					$('#playerInfo > .well').text('Sorry, two players are already playing.');
-					$('#chatDisplay').text('You won\'t be able to read chat unless you\'re playing.');
 				}
 			} else {
 				$('#startDiv').removeClass('hidden');
 				if (!game.playerNum.length) {
 					$('#playerInfo').addClass('hidden');
 				}
-				//reset chat stuff if there aren't 2 players
-				$('#chat').addClass('hidden');
-				$('#chatDisplay').empty();
+
 				if (snapshot.child('chat').exists()) {
 					database.ref().child('chat').remove();
 				}
@@ -86,10 +96,13 @@ var game = {
 					});
 				}
 
+				if(!game.playerNum.length) {
+					$('#chatDisplay').empty();
+				}
+
 				// reset opponent stats
 				game.oppWins = 0;
 				game.oppLosses = 0;
-				game.oppTies = 0;
 				$('#player-' + game.opponentNum + '-wins').text(game.oppWins);
 				$('#player-' + game.opponentNum + '-losses').text(game.oppLosses);
 
@@ -127,47 +140,55 @@ var game = {
 		// 0 = both players have taken a turn
 		turnRef.on('value', function(turnSnap) {
 			var turn = turnSnap.val();
-			if(game.playerNum.length) {
-				if(turn != 0) {
-					if(game.playerNum === '1') {
-						if(turn === 1) {
-							$('#player-1-choice').empty().addClass('hidden');
-							$('#player-2-choice').removeClass('hidden').text('Waiting...');
-						} else {
-							$('#player-2-choice').text('Choosing...');
+			if(turn) {
+				if(game.playerNum.length) {
+					if(turn != 0) {
+						if(game.playerNum === '1') {
+							if(turn === 1) {
+								$('#player-1-choice').empty().addClass('hidden');
+								$('#player-2-choice').removeClass('hidden').text('Waiting...');
+							} else {
+								$('#player-2-choice').text('Choosing...');
+							}
+						} else if (game.playerNum === '2') {
+							if(turn === 2) {
+								$('#player-1-choice').text('Waiting...');
+							} else {
+								$('#player-2-choice').empty().addClass('hidden');
+								$('#player-1-choice').removeClass('hidden')
+									.text('Choosing...');
+							}
 						}
-					} else if (game.playerNum === '2') {
-						if(turn === 2) {
-							$('#player-1-choice').text('Waiting...');
-						} else {
-							$('#player-2-choice').empty().addClass('hidden');
-							$('#player-1-choice').removeClass('hidden')
-								.text('Choosing...');
-						}
+						game.playerReady(turn);
 					}
-					game.playerReady(turn);
-				}
-				else {
-					playersRef.once('value', function(snap) {
-						if(snap.numChildren() === 2) {
-						//we have two players logged in, so it's safe to process
-							game.processSelections();
-						}
-					});
-				}
+					else {
+						playersRef.once('value', function(snap) {
+							if(snap.numChildren() === 2) {
+								//we have two players logged in, so it's safe to process
+								game.processSelections();
+							}
+						});
+					}
 
-				if(turn === 1) {
-					$('#player-1').removeClass('panel-default')
-						.addClass('panel-warning');
-				} else if (turn === 2) {
-					$('#player-2').removeClass('panel-default')
-						.addClass('panel-warning');
-					$('#player-1').removeClass('panel-warning')
-						.addClass('panel-default');
-				} else {
-					$('#player-1, #player-2').removeClass('panel-warning')
-						.addClass('panel-default');
+					if(turn === 1) {
+						$('#player-1').removeClass('panel-default')
+							.addClass('panel-warning');
+					} else if (turn === 2) {
+						$('#player-2').removeClass('panel-default')
+							.addClass('panel-warning');
+						$('#player-1').removeClass('panel-warning')
+							.addClass('panel-default');
+					} else {
+						$('#player-1, #player-2').removeClass('panel-warning')
+							.addClass('panel-default');
+					}
 				}
+			} else {
+				playersRef.once('value', function(snap) {
+					if(snap.val() && game.playerNum.length && game.opponentName.length) {
+						$('#chatDisplay').append('<span class="disconnected">' + game.opponentName + ' has disconnected.</span>');
+					}
+				});
 			}
 		});
 
@@ -178,7 +199,7 @@ var game = {
 					if(msgSnap.val().sender === game.playerName) {
 						span.addClass('self');
 					}
-					$('#chatDisplay').append(span.append('<strong>' + msgSnap.val().sender + '</strong> (' +  moment.unix(msgSnap.val().timestamp).format('h:mm:ss A') + '): ' + msgSnap.val().message)).append('<br />');
+					$('#chatDisplay').append(span.append('<strong>' + msgSnap.val().sender + '</strong> (' +  moment.unix(msgSnap.val().timestamp).format('h:mm:ss A') + '): ' + msgSnap.val().message));
 					$('#chatDisplay').scrollTop($('#chatDisplay')[0].scrollHeight);
 				}
 			}
