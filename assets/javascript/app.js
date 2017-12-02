@@ -73,9 +73,8 @@ var game = {
 				$('#startDiv').removeClass('hidden');
 				if (!game.playerNum.length) {
 					$('#playerInfo').addClass('hidden');
+					$('.panel-footer').hide();
 				}
-
-				$('.panel-footer').hide();
 
 				if 
 				(snapshot.child('chat').exists()) {
