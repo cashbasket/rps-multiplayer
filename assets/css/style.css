@@ -3,6 +3,10 @@ body {
     font-size: 16px;
 }
 
+.container {
+    max-width: 1040px;
+}
+
 strong {
     font-weight: bold;
 }
@@ -81,6 +85,7 @@ p {
     max-height: 250px;
     width: 100%;
     overflow-y: auto;
+    overflow-x: hidden;
     border-radius: 3px;
     margin-bottom: 5px;
     padding: 10px;
@@ -89,6 +94,10 @@ p {
 
 .chat-display > .self {
     color: #F00;
+}
+
+.player-info {
+    text-align: center;
 }
 
 .input-row > [class*='col-']:first-child {

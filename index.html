@@ -11,7 +11,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div id="startDiv">
+                <div id="startDiv" class="hidden">
                     <form id="loginForm" class="form-inline">
 						<div class="form-group">
 							<label for="name" class="control-label sr-only">Enter Your Name:</label>
@@ -19,9 +19,14 @@
 						</div>
                         <button type="submit" id="start" class="btn btn-primary">Log In</button>
                     </form>
-                    <div id="playerInfo" class="hidden"></div>
-                    <div id="status" class="hidden"></div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                 <div id="playerInfo" class="hidden player-info">
+                     <div class="well"></div>
+                 </div>
             </div>
         </div>
         <div class="row">
@@ -42,7 +47,6 @@
                     <div id="player-1-stats" class="panel-footer">
                         Wins: <span id="player-1-wins" class="stat">0</span> 
                         Losses: <span id="player-1-losses" class="stat">0</span>
-                        Ties: <span id="player-1-ties" class="stat">0</span>
                     </div>
                 </div>
                 <div id="wait-1" class="waiting">
@@ -50,7 +54,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div id="results" class="results-section"></div>
+                <div id="results" class="results-section">vs.</div>
             </div>
             <div class="col-md-4">
                 <div id="player-2" class="panel panel-default player-panel hidden">
@@ -69,7 +73,6 @@
                     <div id="player-2-stats" class="panel-footer">
                         Wins: <span id="player-2-wins" class="stat">0</span> 
                         Losses: <span id="player-2-losses" class="stat">0</span>
-                        Ties: <span id="player-2-ties" class="stat">0</span>
                     </div>
                 </div>
                 <div id="wait-2" class="waiting">
@@ -78,7 +81,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8 col-md-push-2">
+            <div class="col-md-12">
                 <div id="chat" class="hidden" class="chat-container">
 					<div class="row no-gutter">
 						<div class="col-md-12">
@@ -87,7 +90,7 @@
 						</div>
 					</div>
                     <form id="msgForm">
-						<div class="row input-row">
+						<div class="row input-row hidden">
 							<div class="col-sm-10">
 								<div class="form-group">
 									<label for="message" class="control-label sr-only">Send a Message:</label>

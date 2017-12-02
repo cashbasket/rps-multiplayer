@@ -23,10 +23,8 @@ var game = {
 	opponentChoice: '',
 	wins: 0,
 	losses: 0,
-	ties: 0,
 	oppWins: 0,
 	oppLosses: 0,
-	oppTies: 0,
 	winState: '',
 	initGame: function() {
 		//load other player's current stats (if there is another player logged in)
@@ -34,26 +32,34 @@ var game = {
 			if(snapshot.val() != null) {
 				$('#player-1-wins').text(snapshot.val().wins);
 				$('#player-1-losses').text(snapshot.val().losses);
-				$('#player-1-ties').text(snapshot.val().ties);
 			}
 		});
 		player2Ref.once('value', function(snapshot) {
 			if(snapshot.val() != null) {
 				$('#player-2-wins').text(snapshot.val().wins);
 				$('#player-2-losses').text(snapshot.val().losses);
-				$('#player-2-ties').text(snapshot.val().ties);
 			}
 		});
 
 		database.ref().on('value', function(snapshot) {
 			if (snapshot.child('players').numChildren() === 2) {
+				$('#startDiv').addClass('hidden');
 				if(!snapshot.child('turn').exists()) {
 					database.ref().child('turn').set(1);
 				}
 				$('#chat').removeClass('hidden');
+				if (game.playerNum.length) {
+					$('.input-row').removeClass('hidden');
+				} else {
+					$('#playerInfo').removeClass('hidden');
+					$('#playerInfo > .well').text('Sorry, two players are already playing.');
+					$('#chatDisplay').text('You won\'t be able to read chat unless you\'re playing.');
+				}
 			} else {
-				$('#status').empty().addClass('hidden');
-
+				$('#startDiv').removeClass('hidden');
+				if (!game.playerNum.length) {
+					$('#playerInfo').addClass('hidden');
+				}
 				//reset chat stuff if there aren't 2 players
 				$('#chat').addClass('hidden');
 				$('#chatDisplay').empty();
@@ -66,7 +72,6 @@ var game = {
 					database.ref().child('turn').remove();
 				}
 
-				//remove player choices
 				if(game.playerNum === '1') {
 					player1Ref.once('value', function(snap) {
 						if (snap.val()) {
@@ -87,7 +92,6 @@ var game = {
 				game.oppTies = 0;
 				$('#player-' + game.opponentNum + '-wins').text(game.oppWins);
 				$('#player-' + game.opponentNum + '-losses').text(game.oppLosses);
-				$('#player-' + game.opponentNum + '-ties').text(game.oppTies);
 
 				// hide player's buttons until another player enters game
 				$('#player-' + game.playerNum + '-buttons').addClass('hidden');
@@ -123,61 +127,60 @@ var game = {
 		// 0 = both players have taken a turn
 		turnRef.on('value', function(turnSnap) {
 			var turn = turnSnap.val();
-			if(turn != 0) {
-				$('#status').removeClass('hidden');
-				if(game.playerNum === '1') {
-					if(turn === 1) {
-						$('#status').text('It\'s your turn!');
-						$('#player-1-choice').empty().addClass('hidden');
-						$('#player-2-choice').removeClass('hidden').text('Waiting...');
-					} else {
-						$('#player-2-choice').text('Choosing...');
-						$('#status').text('Waiting for ' + $('#player-2-name').text() + ' to choose.');
+			if(game.playerNum.length) {
+				if(turn != 0) {
+					if(game.playerNum === '1') {
+						if(turn === 1) {
+							$('#player-1-choice').empty().addClass('hidden');
+							$('#player-2-choice').removeClass('hidden').text('Waiting...');
+						} else {
+							$('#player-2-choice').text('Choosing...');
+						}
+					} else if (game.playerNum === '2') {
+						if(turn === 2) {
+							$('#player-1-choice').text('Waiting...');
+						} else {
+							$('#player-2-choice').empty().addClass('hidden');
+							$('#player-1-choice').removeClass('hidden')
+								.text('Choosing...');
+						}
 					}
-				} else if (game.playerNum === '2') {
-					if(turn === 2) {
-						$('#player-1-choice').text('Waiting...');
-						$('#status').text('It\'s your turn!');
-					} else {
-						$('#player-2-choice').empty().addClass('hidden');
-						$('#player-1-choice').removeClass('hidden')
-							.text('Choosing...');
-						$('#status').text('Waiting for ' + $('#player-1-name').text() + ' to choose.');
-					}
+					game.playerReady(turn);
 				}
-				game.playerReady(turn);
-			}
-			else {
-				playersRef.once('value', function(snap) {
-					if(snap.numChildren() === 2) {
+				else {
+					playersRef.once('value', function(snap) {
+						if(snap.numChildren() === 2) {
 						//we have two players logged in, so it's safe to process
-						game.processSelections();
-					}
-				});
-			}
+							game.processSelections();
+						}
+					});
+				}
 
-			if(turn === 1) {
-				$('#player-1').removeClass('panel-default')
-					.addClass('panel-warning');
-			} else if (turn === 2) {
-				$('#player-2').removeClass('panel-default')
-					.addClass('panel-warning');
-				$('#player-1').removeClass('panel-warning')
-					.addClass('panel-default');
-			} else {
-				$('#player-2').removeClass('panel-warning')
-					.addClass('panel-default');
+				if(turn === 1) {
+					$('#player-1').removeClass('panel-default')
+						.addClass('panel-warning');
+				} else if (turn === 2) {
+					$('#player-2').removeClass('panel-default')
+						.addClass('panel-warning');
+					$('#player-1').removeClass('panel-warning')
+						.addClass('panel-default');
+				} else {
+					$('#player-1, #player-2').removeClass('panel-warning')
+						.addClass('panel-default');
+				}
 			}
 		});
 
 		chatRef.orderByChild('timestamp').limitToLast(1).on('child_added', function(msgSnap) {
-			if(msgSnap.val()) {
-				var span = $('<span>');
-				if(msgSnap.val().sender === game.playerName) {
-					span.addClass('self');
+			if(game.playerNum.length) {
+				if(msgSnap.val()) {
+					var span = $('<span>');
+					if(msgSnap.val().sender === game.playerName) {
+						span.addClass('self');
+					}
+					$('#chatDisplay').append(span.append('<strong>' + msgSnap.val().sender + '</strong> (' +  moment.unix(msgSnap.val().timestamp).format('h:mm:ss A') + '): ' + msgSnap.val().message)).append('<br />');
+					$('#chatDisplay').scrollTop($('#chatDisplay')[0].scrollHeight);
 				}
-				$('#chatDisplay').append(span.append('<strong>' + msgSnap.val().sender + '</strong> (' +  moment.unix(msgSnap.val().timestamp).format('h:mm:ss A') + '): ' + msgSnap.val().message)).append('<br />');
-				$('#chatDisplay').scrollTop($('#chatDisplay')[0].scrollHeight);
 			}
 		});
 	},
@@ -196,7 +199,6 @@ var game = {
 								if(p1Snap.val() != null) {
 									game.oppWins = p1Snap.val().wins;
 									game.oppLosses = p1Snap.val().losses;
-									game.oppTies = p1Snap.val().ties;
 								}
 							});
 						} else {
@@ -206,7 +208,6 @@ var game = {
 								if(p2Snap.val() != null) {
 									game.oppWins = p2Snap.val().wins;
 									game.oppLosses = p2Snap.val().losses;
-									game.oppTies = p2Snap.val().ties;
 								}
 							});
 						}
@@ -215,18 +216,15 @@ var game = {
 						playersRef.child(game.playerNum).set({
 							name: game.playerName,
 							wins: 0,
-							losses: 0,
-							ties: 0
+							losses: 0
 						});
 
 						$('#loginForm').hide();
-						$('#playerInfo').removeClass('hidden')
-							.text('Hi, ' + game.playerName + '! You are Player ' + game.playerNum + '.');					
+						$('#playerInfo').removeClass('hidden');
+						$('#playerInfo > .well').text('Hi, ' + game.playerName + '! You are Player ' + game.playerNum + '.');					
 	
 						//remove player data when player disconnects.
 						playersRef.child(game.playerNum).onDisconnect().remove();
-					} else {
-						alert('Sorry, there are already two players playing!');
 					}
 				});
 			}
@@ -327,8 +325,6 @@ var game = {
 				.show();
 		}
 		else {
-			this.ties++;
-			this.oppTies++;
 			$('#results').text('You tied!')
 				.show();
 		}
@@ -336,7 +332,6 @@ var game = {
 		playersRef.child(this.playerNum).update({
 			wins: this.wins,
 			losses: this.losses,
-			ties: this.ties
 		}, function(error) {
 			if (!error) {
 				game.updateStatsDisplay(game.playerNum);
@@ -344,7 +339,7 @@ var game = {
 		});
 		
 		setTimeout(function() {
-			$('#results').hide();
+			$('#results').text('vs.');
 			database.ref().update({
 				turn: 1
 			});
@@ -354,17 +349,13 @@ var game = {
 		if (playerNum === '1') {
 			$('#player-1-wins').text(game.wins);
 			$('#player-1-losses').text(game.losses);
-			$('#player-1-ties').text(game.ties);
 			$('#player-2-wins').text(game.oppWins);
 			$('#player-2-losses').text(game.oppLosses);
-			$('#player-2-ties').text(game.oppTies);
 		} else {
 			$('#player-2-wins').text(game.wins);
 			$('#player-2-losses').text(game.losses);
-			$('#player-2-ties').text(game.ties);
 			$('#player-1-wins').text(game.oppWins);
 			$('#player-1-losses').text(game.oppLosses);
-			$('#player-1-ties').text(game.oppTies);
 		}
 	},
 	sendMessage: function(message) {
