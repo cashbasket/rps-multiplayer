@@ -9,10 +9,16 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
 </head>
 <body class="site">
+    <header>
+        <h1>Rock, Paper, Scissors: Multiplayer Edition</h1>
+    </header>
+    <div id="playerInfo" class="hidden player-info">
+        <div class="well"></div>
+    </div>
     <div class="container site-content">
         <div class="row">
             <div class="col-md-12">
-                <div id="startDiv" class="hidden">
+                <div id="startDiv" class="start-div hidden">
                     <p>Enter your name and press "Log In" to play!</p>
                     <form id="loginForm" class="form-inline">
 						<div class="form-group">
@@ -22,13 +28,6 @@
                         <button type="submit" id="start" class="btn btn-primary">Log In</button>
                     </form>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                 <div id="playerInfo" class="hidden player-info">
-                     <div class="well"></div>
-                 </div>
             </div>
         </div>
         <div class="row">

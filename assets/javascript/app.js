@@ -70,7 +70,7 @@ var game = {
 					$('.input-row').removeClass('hidden');
 				} else {
 					$('#playerInfo').removeClass('hidden');
-					$('#playerInfo > .well').text('Sorry, two players are already playing.');
+					$('#playerInfo > .well').text('Two players are already in the game. You can wait for someone to leave if you want.');
 				}
 			} else {
 				$('#startDiv').removeClass('hidden');
@@ -231,7 +231,7 @@ var game = {
 
 						$('#startDiv').hide();
 						$('#playerInfo').removeClass('hidden');
-						$('#playerInfo > .well').text('Hi, ' + game.playerName + '! You are Player ' + game.playerNum + '.');					
+						$('#playerInfo > .well').html('<strong>Hi, ' + game.playerName + '!</strong> You are Player ' + game.playerNum + '.');					
 	
 						//remove player data when player disconnects.
 						playersRef.child(game.playerNum).onDisconnect().remove();
