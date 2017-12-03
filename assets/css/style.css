@@ -67,7 +67,7 @@ p {
 }
 
 .waiting {
-    background-color: #f5f5f5;
+    background: #f5f5f5 url(../images/silhouette.jpg) center no-repeat;
     border-radius:3px;
     min-height: 226px;
     display: flex;

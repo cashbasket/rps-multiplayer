@@ -229,7 +229,7 @@ var game = {
 							losses: 0
 						});
 
-						$('#loginForm').hide();
+						$('#startDiv').hide();
 						$('#playerInfo').removeClass('hidden');
 						$('#playerInfo > .well').text('Hi, ' + game.playerName + '! You are Player ' + game.playerNum + '.');					
 	

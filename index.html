@@ -13,10 +13,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="startDiv" class="hidden">
+                    <p>Enter your name and press "Log In" to play!</p>
                     <form id="loginForm" class="form-inline">
 						<div class="form-group">
 							<label for="name" class="control-label sr-only">Enter Your Name:</label>
-							<input type="text" id="name" placeholder="Enter Your Name" class="form-control" required />
+							<input type="text" id="name" placeholder="Your Name" class="form-control" required />
 						</div>
                         <button type="submit" id="start" class="btn btn-primary">Log In</button>
                     </form>
@@ -50,9 +51,7 @@
                         <strong>Losses:</strong> <span id="player-1-losses" class="stat">0</span>
                     </div>
                 </div>
-                <div id="wait-1" class="waiting">
-                    <p>Waiting for Player 1...</p>
-                </div>
+                <div id="wait-1" class="waiting"></div>
             </div>
             <div class="col-md-4">
                 <div id="results" class="results-section">vs.</div>
@@ -76,9 +75,7 @@
                         <strong>Losses:</strong> <span id="player-2-losses" class="stat">0</span>
                     </div>
                 </div>
-                <div id="wait-2" class="waiting">
-                    <p>Waiting for Player 2...</p>
-                </div>
+                <div id="wait-2" class="waiting"></div>
             </div>
         </div>
         <div class="row">
