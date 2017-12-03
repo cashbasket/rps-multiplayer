@@ -214,8 +214,7 @@ p {
 
 footer {
 	background-color: #000;
-	color: #fffdf4;
-	border-top: 1px solid #fffdf4;
+	color: #fff;
     padding: 10px;
     font-size: 16px;
 }
@@ -237,7 +236,7 @@ footer {
 }
 
 .social li a {
-    color: #fffdf4;
+    color: #fff;
 }
 
 .social li:last-of-type {
