@@ -24,27 +24,32 @@ var game = {
 	opponentChoice: '',
 	wins: 0,
 	losses: 0,
-	oppWins: 0,
-	oppLosses: 0,
 	winState: '',
 	initGame: function() {
-		//load other player's current stats (if there is another player logged in)
-		player1Ref.once('value', function(snapshot) {
-			if(snapshot.val() != null) {
-				$('#player-1-wins').text(snapshot.val().wins);
-				$('#player-1-losses').text(snapshot.val().losses);
+		// update stat displays as wins & losses are updated in firebase
+		player1Ref.child('wins').on('value', function(p1wins) {
+			if (p1wins.val() != null) {
+				$('#player-1-wins').text(p1wins.val());
 			}
 		});
-		player2Ref.once('value', function(snapshot) {
-			if(snapshot.val() != null) {
-				$('#player-2-wins').text(snapshot.val().wins);
-				$('#player-2-losses').text(snapshot.val().losses);
+		player1Ref.child('losses').on('value', function(p1losses) {
+			if (p1losses.val() != null) {
+				$('#player-1-losses').text(p1losses.val());
+			}
+		});
+		player2Ref.child('wins').on('value', function(p2wins) {
+			if (p2wins.val() != null) {
+				$('#player-2-wins').text(p2wins.val());
+			}
+		});
+		player2Ref.child('losses').on('value', function(p2losses) {
+			if (p2losses.val() != null) {
+				$('#player-2-losses').text(p2losses.val());
 			}
 		});
 
 		database.ref().on('value', function(snapshot) {
 			if (snapshot.child('players').numChildren() === 2) {
-				
 				if(game.playerNum === '1') {
 					player2Ref.once('value', function(p2Snap) {
 						game.opponentName = p2Snap.val().name;
@@ -63,21 +68,17 @@ var game = {
 				if (game.playerNum.length) {
 					$('#chat').removeClass('hidden');
 					$('.input-row').removeClass('hidden');
-					$('.panel-footer').show();
 				} else {
 					$('#playerInfo').removeClass('hidden');
 					$('#playerInfo > .well').text('Sorry, two players are already playing.');
-					$('.panel-footer').hide();
 				}
 			} else {
 				$('#startDiv').removeClass('hidden');
 				if (!game.playerNum.length) {
 					$('#playerInfo').addClass('hidden');
-					$('.panel-footer').hide();
 				}
 
-				if 
-				(snapshot.child('chat').exists()) {
+				if (snapshot.child('chat').exists()) {
 					database.ref().child('chat').remove();
 				}
 
@@ -103,12 +104,6 @@ var game = {
 				if(!game.playerNum.length) {
 					$('#chatDisplay').empty();
 				}
-
-				// reset opponent stats
-				game.oppWins = 0;
-				game.oppLosses = 0;
-				$('#player-' + game.opponentNum + '-wins').text(game.oppWins);
-				$('#player-' + game.opponentNum + '-losses').text(game.oppLosses);
 
 				// hide player's buttons until another player enters game
 				$('#player-' + game.playerNum + '-buttons').addClass('hidden');
@@ -222,21 +217,9 @@ var game = {
 						if(players.hasChild('1')) {
 							game.playerNum = '2';
 							game.opponentNum = '1';
-							player1Ref.once('value', function(p1Snap) {
-								if(p1Snap.val() != null) {
-									game.oppWins = p1Snap.val().wins;
-									game.oppLosses = p1Snap.val().losses;
-								}
-							});
 						} else {
 							game.playerNum = '1';
 							game.opponentNum = '2';
-							player2Ref.once('value', function(p2Snap) {
-								if(p2Snap.val() != null) {
-									game.oppWins = p2Snap.val().wins;
-									game.oppLosses = p2Snap.val().losses;
-								}
-							});
 						}
 
 						// initialize new player object in db
@@ -359,10 +342,6 @@ var game = {
 		playersRef.child(this.playerNum).update({
 			wins: this.wins,
 			losses: this.losses,
-		}, function(error) {
-			if (!error) {
-				game.updateStatsDisplay(game.playerNum);
-			}
 		});
 		
 		setTimeout(function() {
@@ -371,19 +350,6 @@ var game = {
 				turn: 1
 			});
 		}, 3000);
-	},
-	updateStatsDisplay: function(playerNum) {
-		if (playerNum === '1') {
-			$('#player-1-wins').text(game.wins);
-			$('#player-1-losses').text(game.losses);
-			$('#player-2-wins').text(game.oppWins);
-			$('#player-2-losses').text(game.oppLosses);
-		} else {
-			$('#player-2-wins').text(game.wins);
-			$('#player-2-losses').text(game.losses);
-			$('#player-1-wins').text(game.oppWins);
-			$('#player-1-losses').text(game.oppLosses);
-		}
 	},
 	sendMessage: function(message) {
 		var tmp = $('<div>');
