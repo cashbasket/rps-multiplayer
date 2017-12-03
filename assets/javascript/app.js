@@ -1,3 +1,5 @@
+/*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
+
 // Initialize Firebase
 var config = {
 	apiKey: 'AIzaSyCqS6PORnPjshYHiutBMncJDi4qu7HtC6Y',
@@ -14,6 +16,50 @@ var player1Ref = database.ref('/players/1');
 var player2Ref = database.ref('/players/2');
 var turnRef = database.ref('/turn');
 var chatRef = database.ref('/chat');
+
+// This was the best (and coolest) way I could find to make sure malicious code was not entered into the chat. Borrwed from http://locutus.io/php/strip_tags/
+function strip_tags (input, allowed) { // eslint-disable-line camelcase
+	//  discuss at: http://locutus.io/php/strip_tags/
+	// original by: Kevin van Zonneveld (http://kvz.io)
+	// improved by: Luke Godfrey
+	// improved by: Kevin van Zonneveld (http://kvz.io)
+	//    input by: Pul
+	//    input by: Alex
+	//    input by: Marc Palau
+	//    input by: Brett Zamir (http://brett-zamir.me)
+	//    input by: Bobby Drake
+	//    input by: Evertjan Garretsen
+	// bugfixed by: Kevin van Zonneveld (http://kvz.io)
+	// bugfixed by: Onno Marsman (https://twitter.com/onnomarsman)
+	// bugfixed by: Kevin van Zonneveld (http://kvz.io)
+	// bugfixed by: Kevin van Zonneveld (http://kvz.io)
+	// bugfixed by: Eric Nagel
+	// bugfixed by: Kevin van Zonneveld (http://kvz.io)
+	// bugfixed by: Tomasz Wesolowski
+	// bugfixed by: Tymon Sturgeon (https://scryptonite.com)
+	//  revised by: Rafał Kukawski (http://blog.kukawski.pl)
+  
+	// making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+	allowed = (((allowed || '') + '').toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
+  
+	var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
+	var commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+  
+	var before = input;
+	var after = input;
+	// recursively remove tags to ensure that the returned string doesn't contain forbidden tags after previous passes (e.g. '<<bait/>switch/>')
+	while (true) {
+		before = after;
+		after = before.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+			return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+		});
+  
+		// return once no more tags are removed
+		if (before === after) {
+			return after;
+		}
+	}
+}
 
 var game = {
 	playerNum: '',
@@ -355,11 +401,12 @@ var game = {
 			});
 		}, 3000);
 	},
-	sendMessage: function(message) {
-		var tmp = $('<div>');
-		tmp.text(message.trim());
+	sendMessage: function() {
+		var message = $('#message').val().trim();
+		var tmp = $('<span>');
+		tmp.text(message);
 		if (message.trim().length) {
-			var strippedMessage = tmp.text();
+			var strippedMessage = strip_tags($('#message').val().trim());
 			var chatMessage = {
 				sender: this.playerName,
 				message: strippedMessage,
