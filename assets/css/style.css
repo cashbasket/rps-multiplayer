@@ -163,8 +163,11 @@ footer {
 	color: #fffdf4;
 	border-top: 1px solid #fffdf4;
     padding: 10px;
-    font-family: 'Fenix', serif;
     font-size: 16px;
+}
+
+.footer-text {
+    font-family: 'Fenix', serif;
 }
 
 .social {

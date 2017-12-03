@@ -82,6 +82,8 @@ var game = {
 					database.ref().child('chat').remove();
 				}
 
+				$('#results').html('&mdash; vs &mdash;');
+
 				//remove turn
 				if (snapshot.child('turn').exists()) {
 					database.ref().child('turn').remove();
@@ -172,11 +174,13 @@ var game = {
 					if(turn === 1) {
 						$('#player-1').removeClass('panel-default')
 							.addClass('panel-success');
+						$('#results').html('<i class="fa fa-long-arrow-left fa-4x"></i>');
 					} else if (turn === 2) {
 						$('#player-2').removeClass('panel-default')
 							.addClass('panel-success');
 						$('#player-1').removeClass('panel-success')
 							.addClass('panel-default');
+						$('#results').html('<i class="fa fa-long-arrow-right fa-4x"></i>');
 					} else {
 						$('#player-1, #player-2').removeClass('panel-success')
 							.addClass('panel-default');
@@ -345,7 +349,7 @@ var game = {
 		});
 		
 		setTimeout(function() {
-			$('#results').text('vs.');
+			$('#results').html('<i class="fa fa-long-arrow-left fa-4x"></i>');
 			database.ref().update({
 				turn: 1
 			});
