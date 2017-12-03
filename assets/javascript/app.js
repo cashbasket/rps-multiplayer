@@ -308,7 +308,7 @@ var game = {
 	addSelection: function(selection) {
 		this.playerChoice = selection;
 		$('#player-' + this.playerNum + '-choice').removeClass('hidden')
-			.text(this.playerChoice);
+			.html('<img src="assets/images/' + this.playerChoice + '.png" class="img-responsive" alt="' + this.playerChoice + ' icon" />');
 
 		// set player's choice in database
 		playersRef.child(this.playerNum).update({choice: selection}, function(error) {
@@ -341,7 +341,7 @@ var game = {
 			});
 		}
 		//since round is over, show what opponent chose
-		$('#player-' + this.opponentNum + '-choice').text(this.opponentChoice);
+		$('#player-' + this.opponentNum + '-choice').html('<img src="assets/images/' + this.opponentChoice + '.png" class="img-responsive" alt="' + this.opponentChoice + ' icon" />');
 
 		if (this.playerChoice === 'Rock') {
 			if(this.opponentChoice == 'Paper') {

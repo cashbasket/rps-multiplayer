@@ -152,10 +152,16 @@ p {
     text-align: center;
 }
 
-
 .player-choice {
     font-size: 1.5em;
     margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-choice > i {
+    margin-right: 10px;
 }
 
 .waiting p {
