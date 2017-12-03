@@ -399,7 +399,7 @@ var game = {
 		});
 		
 		setTimeout(function() {
-			$('#results').html('<i class="fa fa-long-arrow-left fa-4x"></i>');
+			$('#results').html('<i class="fa fa-long-arrow-left fa-4x bounce-left"></i>');
 			database.ref().update({
 				turn: 1
 			});
