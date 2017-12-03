@@ -242,6 +242,7 @@ var game = {
 				playersRef.once('value', function(snap) {
 					if(snap.val() && game.playerNum.length && game.opponentName.length) {
 						$('#chatDisplay').append('<span class="disconnected">' + game.opponentName + ' has disconnected.</span>');
+						$('#chatDisplay').scrollTop($('#chatDisplay')[0].scrollHeight);
 					}
 				});
 			}
