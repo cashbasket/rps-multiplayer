@@ -114,7 +114,7 @@ p {
 }
 
 .chat-display {
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     min-height: 250px;
     max-height: 250px;
     width: 100%;
