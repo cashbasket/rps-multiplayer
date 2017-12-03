@@ -258,7 +258,7 @@ var game = {
 	},
 	initPlayer: function() {
 		database.ref('.info/connected').on('value', function(snapshot) {
-			game.playerName = $('#name').val().trim();
+			game.playerName = strip_tags($('#name').val().trim());
 			//if user is connected...
 			if(snapshot.val() === true) {
 				//check to see which player (1 or 2) needs to be added
