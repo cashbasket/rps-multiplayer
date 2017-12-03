@@ -343,31 +343,31 @@ var game = {
 		//since round is over, show what opponent chose
 		$('#player-' + this.opponentNum + '-choice').html('<img src="assets/images/' + this.opponentChoice + '.png" class="img-responsive" alt="' + this.opponentChoice + ' icon" />');
 
-		if (this.playerChoice === 'Rock') {
-			if(this.opponentChoice == 'Paper') {
+		if (this.playerChoice === 'rock') {
+			if(this.opponentChoice == 'paper') {
 				this.winState = 'lose';
 			}
-			else if(this.opponentChoice == 'Scissors') {
+			else if(this.opponentChoice == 'scissors') {
 				this.winState = 'win';
 			}
 			else {
 				this.winState = 'tie';
 			}
-		} else if (this.playerChoice === 'Paper') {
-			if(this.opponentChoice == 'Scissors') {
+		} else if (this.playerChoice === 'paper') {
+			if(this.opponentChoice == 'scissors') {
 				this.winState = 'lose';
 			}
-			else if(this.opponentChoice == 'Rock') {
+			else if(this.opponentChoice == 'rock') {
 				this.winState = 'win';
 			}
 			else {
 				this.winState = 'tie';
 			}
-		} else if (this.playerChoice === 'Scissors') {
-			if(this.opponentChoice == 'Rock') {
+		} else if (this.playerChoice === 'scissors') {
+			if(this.opponentChoice == 'rock') {
 				this.winState = 'lose';
 			}
-			else if(this.opponentChoice == 'Paper') {
+			else if(this.opponentChoice == 'paper') {
 				this.winState = 'win';
 			}
 			else {
@@ -375,17 +375,17 @@ var game = {
 			}
 		}
 
-		//update wins/losses/ties for player
+		//update wins/losses for player
 		if (this.winState == 'win') {
 			this.wins++;
 			this.oppLosses++;
-			$('#results').text($('#player-' + this.playerNum + '-name').text() + ' wins!')
+			$('#results').text(game.playerName + ' wins!')
 				.show();
 		}
 		else  if (this.winState == 'lose') {
 			this.losses++;
 			this.oppWins++;
-			$('#results').text($('#player-' + this.opponentNum + '-name').text() + ' wins!')
+			$('#results').text(game.opponentName + ' wins!')
 				.show();
 		}
 		else {
