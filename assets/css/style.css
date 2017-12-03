@@ -85,6 +85,7 @@ p {
 
 .waiting {
     background: #f5f5f5 url(../images/silhouette.jpg) center no-repeat;
+    border: 1px solid #ddd;
     border-radius:3px;
     min-height: 226px;
     display: flex;
@@ -180,10 +181,6 @@ footer {
 
 .social li a {
     color: #fffdf4;
-}
-
-.social li a:hover {
-    color: #f00;
 }
 
 .social li:last-of-type {
