@@ -119,6 +119,7 @@ var game = {
 					$('#playerInfo > .well').text('Two players are already in the game. You can wait for someone to leave if you want.');
 				}
 			} else {
+				$('.player-choice').addClass('hidden');
 				$('#startDiv').removeClass('hidden');
 				if (!game.playerNum.length) {
 					$('#playerInfo').addClass('hidden');
@@ -195,7 +196,7 @@ var game = {
 								$('#player-1-choice').empty().addClass('hidden');
 								$('#player-2-choice').removeClass('hidden').text('Waiting...');
 							} else {
-								$('#player-2-choice').text('Choosing...');
+								$('#player-2-choice').html('<i class="fa fa-gear fa-spin"></i> Choosing...');
 							}
 						} else if (game.playerNum === '2') {
 							if(turn === 2) {
@@ -203,7 +204,7 @@ var game = {
 							} else {
 								$('#player-2-choice').empty().addClass('hidden');
 								$('#player-1-choice').removeClass('hidden')
-									.text('Choosing...');
+									.html('<i class="fa fa-gear fa-spin"></i> Choosing...');
 							}
 						}
 						game.playerReady(turn);
