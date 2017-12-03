@@ -114,6 +114,10 @@ p {
     margin-bottom: 0;
 }
 
+.selection {
+    margin: 5px 0;
+}
+
 .chat-display {
     border: 1px solid #ccc;
     min-height: 250px;
@@ -190,7 +194,16 @@ footer {
     margin-right: 0;
 }
 
+@media screen and (max-width: 991px) {
+    .player-choice {
+        font-size: 1.2em;
+    }
+}
+
 @media screen and (max-width: 767px) {
+    .player-choice {
+        font-size: 1.5em;
+    }
     .input-row > [class*='col-']:first-child {
         padding-right:15px;
         padding-left:15px;
