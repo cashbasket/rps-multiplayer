@@ -224,13 +224,13 @@ var game = {
 					if(turn === 1) {
 						$('#player-1').removeClass('panel-default')
 							.addClass('panel-success');
-						$('#results').html('<i class="fa fa-long-arrow-left fa-4x"></i>');
+						$('#results').html('<i class="fa fa-long-arrow-left fa-4x bounce-left"></i>');
 					} else if (turn === 2) {
 						$('#player-2').removeClass('panel-default')
 							.addClass('panel-success');
 						$('#player-1').removeClass('panel-success')
 							.addClass('panel-default');
-						$('#results').html('<i class="fa fa-long-arrow-right fa-4x"></i>');
+						$('#results').html('<i class="fa fa-long-arrow-right fa-4x bounce-right"></i>');
 					} else {
 						$('#player-1, #player-2').removeClass('panel-success')
 							.addClass('panel-default');
