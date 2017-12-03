@@ -119,7 +119,6 @@ var game = {
 					$('#playerInfo > .well').text('Two players are already in the game. You can wait for someone to leave if you want.');
 				}
 			} else {
-				$('.player-choice').addClass('hidden');
 				$('#startDiv').removeClass('hidden');
 				if (!game.playerNum.length) {
 					$('#playerInfo').addClass('hidden');
@@ -142,12 +141,16 @@ var game = {
 							player1Ref.child('choice').remove();
 						}
 					});
+					$('#player-1-choice').removeClass('hidden')
+						.text('Waiting for Player ' + game.opponentNum + ' to join...');
 				} else if (game.playerNum === '2') {
 					player2Ref.once('value', function(snap) {
 						if (snap.val()) {
 							player2Ref.child('choice').remove();
 						}
 					});
+					$('#player-2-choice').removeClass('hidden')
+						.text('Waiting for Player ' + game.opponentNum + ' to join...');
 				}
 
 				if(!game.playerNum.length) {
