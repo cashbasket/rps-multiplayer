@@ -199,7 +199,7 @@ var game = {
 								$('#player-1-choice').empty().addClass('hidden');
 								$('#player-2-choice').removeClass('hidden').text('Waiting...');
 							} else {
-								$('#player-2-choice').html('<i class="fa fa-gear fa-spin"></i> Choosing...');
+								$('#player-2-choice').text('Choosing...');
 							}
 						} else if (game.playerNum === '2') {
 							if(turn === 2) {
@@ -207,7 +207,7 @@ var game = {
 							} else {
 								$('#player-2-choice').empty().addClass('hidden');
 								$('#player-1-choice').removeClass('hidden')
-									.html('<i class="fa fa-gear fa-spin"></i> Choosing...');
+									.text('Choosing...');
 							}
 						}
 						game.playerReady(turn);
@@ -309,7 +309,7 @@ var game = {
 	addSelection: function(selection) {
 		this.playerChoice = selection;
 		$('#player-' + this.playerNum + '-choice').removeClass('hidden')
-			.html('<img src="assets/images/' + this.playerChoice + '.png" class="img-responsive" alt="' + this.playerChoice + ' icon" />');
+			.html('<img src="assets/images/' + this.playerChoice + '_b.png" class="img-responsive" alt="' + this.playerChoice + ' icon" /> ' + this.playerChoice.toUpperCase());
 
 		// set player's choice in database
 		playersRef.child(this.playerNum).update({choice: selection}, function(error) {
@@ -342,7 +342,7 @@ var game = {
 			});
 		}
 		//since round is over, show what opponent chose
-		$('#player-' + this.opponentNum + '-choice').html('<img src="assets/images/' + this.opponentChoice + '.png" class="img-responsive" alt="' + this.opponentChoice + ' icon" />');
+		$('#player-' + this.opponentNum + '-choice').html('<img src="assets/images/' + this.opponentChoice + '_b.png" class="img-responsive" alt="' + this.opponentChoice + ' icon" /> ' + this.opponentChoice.toUpperCase());
 
 		if (this.playerChoice === 'rock') {
 			if(this.opponentChoice == 'paper') {
