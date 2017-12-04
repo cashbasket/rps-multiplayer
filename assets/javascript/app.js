@@ -407,14 +407,11 @@ var game = {
 		}, 3000);
 	},
 	sendMessage: function() {
-		var message = $('#message').val().trim();
-		var tmp = $('<span>');
-		tmp.text(message);
-		if (message.trim().length) {
-			var strippedMessage = strip_tags($('#message').val().trim());
+		var message = strip_tags($('#message').val().trim());
+		if (message.length) {
 			var chatMessage = {
 				sender: this.playerName,
-				message: strippedMessage,
+				message: message,
 				timestamp: moment().format('X')
 			};
 			chatRef.push(chatMessage);
