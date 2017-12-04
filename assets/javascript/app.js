@@ -124,6 +124,7 @@ var game = {
 					$('#playerInfo').addClass('hidden');
 				}
 
+				//delete chat if less than 2 players
 				if (snapshot.child('chat').exists()) {
 					database.ref().child('chat').remove();
 				}
@@ -135,23 +136,13 @@ var game = {
 					database.ref().child('turn').remove();
 				}
 
-				if(game.playerNum === '1') {
-					player1Ref.once('value', function(snap) {
-						if (snap.val()) {
-							player1Ref.child('choice').remove();
-						}
-					});
-					$('#player-1-choice').removeClass('hidden')
+				database.ref('/players/' + game.playerNum).once('value', function(snap) {
+					if (snap.val()) {
+						database.ref('/players/' + game.playerNum).child('choice').remove();
+					}
+					$('#player-' + game.playerNum + '-choice').removeClass('hidden')
 						.text('Waiting for Player ' + game.opponentNum + ' to join...');
-				} else if (game.playerNum === '2') {
-					player2Ref.once('value', function(snap) {
-						if (snap.val()) {
-							player2Ref.child('choice').remove();
-						}
-					});
-					$('#player-2-choice').removeClass('hidden')
-						.text('Waiting for Player ' + game.opponentNum + ' to join...');
-				}
+				});
 
 				if(!game.playerNum.length) {
 					$('#chatDisplay').empty();
