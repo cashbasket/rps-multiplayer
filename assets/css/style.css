@@ -138,8 +138,7 @@ p {
 }
 
 .waiting {
-    background: #fff url(../images/silhouette.jpg) center bottom no-repeat;
-    border: 2px solid #575c4b;
+    background: #575c4b url(../images/silhouette2.jpg) center bottom no-repeat;
     border-radius:3px;
     color: #fff;
     font-size: 5em;
