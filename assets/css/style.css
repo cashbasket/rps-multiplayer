@@ -153,8 +153,12 @@ p {
 }
 
 .waiting {
-    background: #f5f5f5 url(../images/silhouette.jpg) center bottom no-repeat;
+    background: #fff url(../images/silhouette.jpg) center bottom no-repeat;
+    border: 2px solid #575c4b;
     border-radius:3px;
+    color: #fff;
+    font-size: 5em;
+    padding-bottom: 35px;
     min-height: 256px;
     display: flex;
     justify-content: center;
