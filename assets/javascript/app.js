@@ -188,17 +188,18 @@ var game = {
 						if(game.playerNum === '1') {
 							if(turn === 1) {
 								$('#player-1-choice').empty().addClass('hidden');
-								$('#player-2-choice').removeClass('hidden').text('Waiting...');
+								$('#player-2-choice').removeClass('hidden').html('<i class="fa fa-clock-o fa-4x" aria-hidden="true"></i>Waiting');
 							} else {
-								$('#player-2-choice').text('Choosing...');
+								$('#player-2-choice').html('<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>Choosing');
 							}
 						} else if (game.playerNum === '2') {
 							if(turn === 2) {
+								$('#player-2-choice').empty().addClass('hidden');
 								$('#player-1-choice').html('<i class="fa fa-check-circle fa-4x" aria-hidden="true"></i>Done');
 							} else {
-								$('#player-2-choice').empty().addClass('hidden');
+								$('#player-2-choice').removeClass('hidden').html('<i class="fa fa-clock-o fa-4x" aria-hidden="true"></i>Waiting');
 								$('#player-1-choice').removeClass('hidden')
-									.text('Choosing...');
+									.html('<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>Choosing');
 							}
 						}
 						game.playerReady(turn);
@@ -215,13 +216,13 @@ var game = {
 					if(turn === 1) {
 						$('#player-1').removeClass('panel-default')
 							.addClass('panel-success');
-						$('#results').html('<i class="fa fa-long-arrow-left fa-4x bounce-left"></i>');
+						$('#results').html('<i class="fa fa-long-arrow-left fa-4x"></i>');
 					} else if (turn === 2) {
 						$('#player-2').removeClass('panel-default')
 							.addClass('panel-success');
 						$('#player-1').removeClass('panel-success')
 							.addClass('panel-default');
-						$('#results').html('<i class="fa fa-long-arrow-right fa-4x bounce-right"></i>');
+						$('#results').html('<i class="fa fa-long-arrow-right fa-4x"></i>');
 					} else {
 						$('#player-1, #player-2').removeClass('panel-success')
 							.addClass('panel-default');
@@ -391,7 +392,7 @@ var game = {
 		});
 		
 		setTimeout(function() {
-			$('#results').html('<i class="fa fa-long-arrow-left fa-4x bounce-left"></i>');
+			$('#results').html('<i class="fa fa-long-arrow-left fa-4x"></i>');
 			database.ref().update({
 				turn: 1
 			});
