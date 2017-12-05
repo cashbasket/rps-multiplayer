@@ -24,19 +24,20 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="startDiv" class="start-div hidden">
-                    <p><strong>Enter your name and press "Log In" to play!</strong></p>
+                    <p><strong>Enter your name and press "Start" to play!</strong></p>
                     <form id="loginForm" class="form-inline">
 						<div class="form-group">
 							<label for="name" class="control-label sr-only">Enter Your Name:</label>
 							<input type="text" id="name" placeholder="Your Name" class="form-control" required />
 						</div>
-                        <button type="submit" id="start" class="btn btn-main">Log In</button>
+                        <button type="submit" id="start" class="btn btn-main">Start</button>
                     </form>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-4">
+                <h2 class="player-header">Player 1</h2>
                 <div id="player-1" class="panel panel-default player-panel hidden">
                     <div class="panel-heading">
                         <h3 id="player-1-name" class="panel-title"></h3>
@@ -55,12 +56,15 @@
                         <strong>Losses:</strong> <span id="player-1-losses" class="stat">0</span>
                     </div>
                 </div>
-                <div id="wait-1" class="waiting">1</div>
+                <div id="wait-1" class="waiting"></div>
             </div>
             <div class="col-sm-4">
                 <div id="results" class="results-section">&mdash; vs &mdash;</div>
             </div>
             <div class="col-sm-4">
+                <div class="player-2-heading">
+                    <h2 class="player-header">Player 2</h2>
+                </div>
                 <div id="player-2" class="panel panel-default player-panel hidden">
                     <div class="panel-heading">
                         <h3 id="player-2-name" class="panel-title"></h3>
@@ -79,7 +83,7 @@
                         <strong>Losses:</strong> <span id="player-2-losses" class="stat">0</span>
                     </div>
                 </div>
-                <div id="wait-2" class="waiting">2</div>
+                <div id="wait-2" class="waiting"></div>
             </div>
         </div>
         <div class="row">

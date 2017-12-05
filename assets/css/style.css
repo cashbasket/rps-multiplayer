@@ -52,6 +52,10 @@ p {
     margin-bottom: 1em;
 }
 
+.player-2-heading {
+    text-align: right;
+}
+
 .btn-main {
     background-color: #000;
     color: #fff;
@@ -249,6 +253,11 @@ footer {
 
 .social li:last-of-type {
     margin-right: 0;
+}
+
+.player-header {
+    font-size: 1em !important;
+    margin-bottom: 10px;
 }
 
 @media screen and (max-width: 991px) {
