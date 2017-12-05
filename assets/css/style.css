@@ -184,10 +184,6 @@ p {
     flex-direction: column;
 }
 
-.player-choice > i {
-    margin-right: 10px;
-}
-
 .waiting p {
     font-size: 1.25em;
     margin-bottom: 0;

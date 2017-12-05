@@ -194,7 +194,7 @@ var game = {
 							}
 						} else if (game.playerNum === '2') {
 							if(turn === 2) {
-								$('#player-1-choice').text('Waiting...');
+								$('#player-1-choice').html('<i class="fa fa-check-circle fa-4x" aria-hidden="true"></i>Done');
 							} else {
 								$('#player-2-choice').empty().addClass('hidden');
 								$('#player-1-choice').removeClass('hidden')
