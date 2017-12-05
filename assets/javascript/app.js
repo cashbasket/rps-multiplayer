@@ -129,7 +129,7 @@ var game = {
 					database.ref().child('chat').remove();
 				}
 
-				$('#results').html('&mdash; vs &mdash;');
+				$('#results').html('<img src="assets/images/rps.png" class="img-responsive" alt="Rock, Paper, Scissors" />');
 
 				//remove turn
 				if (snapshot.child('turn').exists()) {
